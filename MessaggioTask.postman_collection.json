@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "3aae23b2-433c-43fb-aa51-78c7645efe48",
+		"name": "MessaggioTask",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13320400"
+	},
+	"item": [
+		{
+			"name": "create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"Message\": \"1\"\r\n    },\r\n    {\r\n        \"Message\": \"2\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{server}}/message/create",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"message",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "statistics",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"Message\": \"1\"\r\n    },\r\n    {\r\n        \"Message\": \"2\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{server}}/message/statistics?dateAt=2024-07-01&dateTo=2024-08-31",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"message",
+						"statistics"
+					],
+					"query": [
+						{
+							"key": "dateAt",
+							"value": "2024-07-01"
+						},
+						{
+							"key": "dateTo",
+							"value": "2024-08-31"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "server",
+			"value": "localhost:8080",
+			"type": "string"
+		}
+	]
+}

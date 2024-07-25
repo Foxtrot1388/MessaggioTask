@@ -1,0 +1,96 @@
+basePath: /
+definitions:
+  entity.MessageToInsert:
+    properties:
+      message:
+        type: string
+    type: object
+  entity.OutputMessage:
+    properties:
+      id:
+        type: integer
+    type: object
+  entity.StatMessage:
+    properties:
+      count:
+        type: integer
+      day:
+        type: string
+    type: object
+  server.response:
+    properties:
+      message:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API Server for messages
+  title: Message API
+  version: "1.0"
+paths:
+  /message/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a message
+      operationId: create
+      parameters:
+      - description: message fo create models
+        in: body
+        name: input
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/entity.MessageToInsert'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: if all message have been create
+          schema:
+            items:
+              $ref: '#/definitions/entity.OutputMessage'
+            type: array
+        "400":
+          description: validation error
+          schema:
+            $ref: '#/definitions/server.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.response'
+      summary: Create
+      tags:
+      - message
+  /message/statistics:
+    get:
+      description: Get statistics a message
+      operationId: statistics
+      parameters:
+      - description: Some date at (format 2006-01-02)
+        in: query
+        name: dateAt
+        type: string
+      - description: Some date to (format 2006-01-02)
+        in: query
+        name: dateTo
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.StatMessage'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.response'
+      summary: statistics
+      tags:
+      - message
+swagger: "2.0"

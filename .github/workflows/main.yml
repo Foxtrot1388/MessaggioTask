@@ -25,10 +25,12 @@ jobs:
       
       - name: Build and push Docker image
         uses: docker/build-push-action@v4.0.0
+        env:
+          DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USER }}/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
+          tags: $(echo $DOCKERHUB_USER)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
 
   deploy:
     runs-on: ubuntu-latest

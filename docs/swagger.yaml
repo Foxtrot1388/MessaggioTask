@@ -22,7 +22,7 @@ definitions:
       message:
         type: string
     type: object
-host: localhost:8080
+host: 89.169.167.99:8080
 info:
   contact: {}
   description: API Server for messages

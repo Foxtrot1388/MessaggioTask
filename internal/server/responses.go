@@ -7,7 +7,7 @@ import (
 )
 
 type response struct {
-	Message string
+	Message string `json:"message"`
 }
 
 var notCreateMessage = response{

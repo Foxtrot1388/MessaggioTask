@@ -6,12 +6,14 @@ import (
 	"time"
 
 	"github.com/Foxtrot1388/MessaggioTask/internal/entity"
+	"github.com/Foxtrot1388/MessaggioTask/internal/model"
+	"github.com/Foxtrot1388/MessaggioTask/internal/model/converter"
 )
 
 //go:generate mockery --name DbRepository
 type DbRepository interface {
 	Create(context.Context, []string) ([]entity.OutputMessage, error)
-	CreateOutbox(context.Context, []int) error
+	CreateOutbox(context.Context, []model.OutputMessage) error
 	SelectForOutbox(context.Context) ([]entity.OutputMessageOutbox, error)
 	DeleteForOutboxByID(context.Context, int) error
 	UpdateForOutboxByID(context.Context, int) error
@@ -36,7 +38,7 @@ func New(log *slog.Logger, db DbRepository, kafka KafkaRepository) *service {
 	return &service{db: db, log: log, kafka: kafka}
 }
 
-func (s *service) Create(ctx context.Context, messages []string) ([]int, error) {
+func (s *service) Create(ctx context.Context, messages []string) ([]model.OutputMessage, error) {
 
 	// в транзакции запишем в аутбокс и в сообщения
 	res, err := s.db.WithTr(ctx, func(ctx context.Context) (interface{}, error) {
@@ -46,9 +48,9 @@ func (s *service) Create(ctx context.Context, messages []string) ([]int, error) 
 			return nil, err
 		}
 
-		result := make([]int, len(entityresults))
+		result := make([]model.OutputMessage, len(entityresults))
 		for c, entityresult := range entityresults {
-			result[c] = entityresult.ID
+			result[c] = converter.GetOutputMessage(&entityresult)
 		}
 
 		err = s.db.CreateOutbox(ctx, result)
@@ -62,7 +64,7 @@ func (s *service) Create(ctx context.Context, messages []string) ([]int, error) 
 	if err != nil {
 		return nil, err
 	} else {
-		return res.([]int), nil
+		return res.([]model.OutputMessage), nil
 	}
 
 }
@@ -125,8 +127,15 @@ func (s *service) StartJobOutboxRead(ctx context.Context) {
 
 }
 
-func (s *service) GetStatistic(ctx context.Context, dateAt, dateTo time.Time) ([]entity.StatMessage, error) {
+func (s *service) GetStatistic(ctx context.Context, dateAt, dateTo time.Time) ([]model.StatMessage, error) {
 
-	return s.db.SelectStatistic(ctx, dateAt, dateTo)
+	entityresult, err := s.db.SelectStatistic(ctx, dateAt, dateTo)
+
+	result := make([]model.StatMessage, len(entityresult))
+	for c, element := range entityresult {
+		result[c] = converter.GetStatMessage(&element)
+	}
+
+	return result, err
 
 }

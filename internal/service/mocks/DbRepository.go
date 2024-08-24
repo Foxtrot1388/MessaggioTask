@@ -8,6 +8,8 @@ import (
 	entity "github.com/Foxtrot1388/MessaggioTask/internal/entity"
 	mock "github.com/stretchr/testify/mock"
 
+	model "github.com/Foxtrot1388/MessaggioTask/internal/model"
+
 	time "time"
 )
 
@@ -65,7 +67,7 @@ func (_m *DbRepository) Create(_a0 context.Context, _a1 []string) ([]entity.Outp
 }
 
 // CreateOutbox provides a mock function with given fields: _a0, _a1
-func (_m *DbRepository) CreateOutbox(_a0 context.Context, _a1 []int) error {
+func (_m *DbRepository) CreateOutbox(_a0 context.Context, _a1 []model.OutputMessage) error {
 	ret := _m.Called(_a0, _a1)
 
 	if len(ret) == 0 {
@@ -73,7 +75,7 @@ func (_m *DbRepository) CreateOutbox(_a0 context.Context, _a1 []int) error {
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, []int) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, []model.OutputMessage) error); ok {
 		r0 = rf(_a0, _a1)
 	} else {
 		r0 = ret.Error(0)

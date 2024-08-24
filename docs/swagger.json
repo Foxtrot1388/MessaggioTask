@@ -43,7 +43,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "type": "integer"
+                                "$ref": "#/definitions/model.OutputMessage"
                             }
                         }
                     },
@@ -93,7 +93,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/entity.StatMessage"
+                                "$ref": "#/definitions/model.StatMessage"
                             }
                         }
                     },
@@ -108,7 +108,15 @@
         }
     },
     "definitions": {
-        "entity.StatMessage": {
+        "model.OutputMessage": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.StatMessage": {
             "type": "object",
             "properties": {
                 "count": {

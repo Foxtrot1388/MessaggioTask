@@ -10,16 +10,16 @@ import (
 	"time"
 
 	_ "github.com/Foxtrot1388/MessaggioTask/docs"
+	"github.com/Foxtrot1388/MessaggioTask/internal/model"
 
-	"github.com/Foxtrot1388/MessaggioTask/internal/entity"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type usecases interface {
-	Create(context.Context, []string) ([]int, error)
-	GetStatistic(context.Context, time.Time, time.Time) ([]entity.StatMessage, error)
+	Create(context.Context, []string) ([]model.OutputMessage, error)
+	GetStatistic(context.Context, time.Time, time.Time) ([]model.StatMessage, error)
 	StartJobOutboxWrite(context.Context)
 	StartJobOutboxRead(context.Context)
 }
@@ -100,7 +100,7 @@ func (s *httpServer) Listen() {
 // @Accept json
 // @Produce json
 // @Param input body []string true "message fo create models"
-// @Success 200 {object} []int "if all message have been create"
+// @Success 200 {object} []model.OutputMessage "if all message have been create"
 // @Failure 500 {object} response
 // @Failure 400 {object} response "validation error"
 // @Router /message/create [POST]
@@ -136,7 +136,7 @@ func (con *httpServer) create(c *gin.Context) {
 // @Produce json
 // @Param dateAt query string false "Some date at (format 2006-01-02)"
 // @Param dateTo query string false "Some date to (format 2006-01-02)"
-// @Success 200 {object} []entity.StatMessage
+// @Success 200 {object} []model.StatMessage
 // @Failure 500 {object} response
 // @Router /message/statistics [GET]
 func (con *httpServer) statistics(c *gin.Context) {

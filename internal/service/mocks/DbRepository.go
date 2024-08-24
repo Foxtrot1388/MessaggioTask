@@ -35,7 +35,7 @@ func (_m *DbRepository) AddStatistic(_a0 context.Context, _a1 int) error {
 }
 
 // Create provides a mock function with given fields: _a0, _a1
-func (_m *DbRepository) Create(_a0 context.Context, _a1 []entity.MessageToInsert) ([]entity.OutputMessage, error) {
+func (_m *DbRepository) Create(_a0 context.Context, _a1 []string) ([]entity.OutputMessage, error) {
 	ret := _m.Called(_a0, _a1)
 
 	if len(ret) == 0 {
@@ -44,10 +44,10 @@ func (_m *DbRepository) Create(_a0 context.Context, _a1 []entity.MessageToInsert
 
 	var r0 []entity.OutputMessage
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, []entity.MessageToInsert) ([]entity.OutputMessage, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, []string) ([]entity.OutputMessage, error)); ok {
 		return rf(_a0, _a1)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, []entity.MessageToInsert) []entity.OutputMessage); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, []string) []entity.OutputMessage); ok {
 		r0 = rf(_a0, _a1)
 	} else {
 		if ret.Get(0) != nil {
@@ -55,7 +55,7 @@ func (_m *DbRepository) Create(_a0 context.Context, _a1 []entity.MessageToInsert
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, []entity.MessageToInsert) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, []string) error); ok {
 		r1 = rf(_a0, _a1)
 	} else {
 		r1 = ret.Error(1)
@@ -65,7 +65,7 @@ func (_m *DbRepository) Create(_a0 context.Context, _a1 []entity.MessageToInsert
 }
 
 // CreateOutbox provides a mock function with given fields: _a0, _a1
-func (_m *DbRepository) CreateOutbox(_a0 context.Context, _a1 []entity.OutputMessage) error {
+func (_m *DbRepository) CreateOutbox(_a0 context.Context, _a1 []int) error {
 	ret := _m.Called(_a0, _a1)
 
 	if len(ret) == 0 {
@@ -73,7 +73,7 @@ func (_m *DbRepository) CreateOutbox(_a0 context.Context, _a1 []entity.OutputMes
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, []entity.OutputMessage) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, []int) error); ok {
 		r0 = rf(_a0, _a1)
 	} else {
 		r0 = ret.Error(0)

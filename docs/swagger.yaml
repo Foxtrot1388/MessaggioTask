@@ -1,15 +1,5 @@
 basePath: /
 definitions:
-  entity.MessageToInsert:
-    properties:
-      message:
-        type: string
-    type: object
-  entity.OutputMessage:
-    properties:
-      id:
-        type: integer
-    type: object
   entity.StatMessage:
     properties:
       count:
@@ -42,7 +32,7 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/definitions/entity.MessageToInsert'
+            type: string
           type: array
       produces:
       - application/json
@@ -51,7 +41,7 @@ paths:
           description: if all message have been create
           schema:
             items:
-              $ref: '#/definitions/entity.OutputMessage'
+              type: integer
             type: array
         "400":
           description: validation error

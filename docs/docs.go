@@ -38,7 +38,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/entity.MessageToInsert"
+                                "type": "string"
                             }
                         }
                     }
@@ -49,7 +49,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/entity.OutputMessage"
+                                "type": "integer"
                             }
                         }
                     },
@@ -114,22 +114,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "entity.MessageToInsert": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "entity.OutputMessage": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                }
-            }
-        },
         "entity.StatMessage": {
             "type": "object",
             "properties": {

@@ -9,7 +9,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/Foxtrot1388/MessaggioTask/internal/entity"
 	"github.com/Foxtrot1388/MessaggioTask/internal/service"
 	"github.com/Foxtrot1388/MessaggioTask/internal/service/mocks"
 	"github.com/stretchr/testify/mock"
@@ -22,11 +21,7 @@ func TestMessageCreate(t *testing.T) {
 		slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelWarn}),
 	)
 
-	wantresponse := []entity.OutputMessage{
-		{
-			ID: 1,
-		},
-	}
+	wantresponse := []int{1}
 
 	db := mocks.NewDbRepository(t)
 	db.
@@ -39,7 +34,7 @@ func TestMessageCreate(t *testing.T) {
 	usercases := service.New(log, db, kafka)
 	srvhttp := New(log, usercases)
 
-	newmes := []entity.MessageToInsert{{Message: "test"}}
+	newmes := []string{"test"}
 	example, _ := json.Marshal(newmes)
 	req, err := http.NewRequest("POST", "/message/create", bytes.NewReader(example))
 	if err != nil {
@@ -51,7 +46,7 @@ func TestMessageCreate(t *testing.T) {
 	require.Equal(t, rr.Code, http.StatusOK)
 
 	body := rr.Body.String()
-	var resp []entity.OutputMessage
+	var resp []int
 	require.NoError(t, json.Unmarshal([]byte(body), &resp))
 
 	require.Equal(t, wantresponse, resp)

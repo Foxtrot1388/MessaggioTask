@@ -7,6 +7,7 @@ import (
 
 	"github.com/Foxtrot1388/MessaggioTask/internal/config"
 	"github.com/Foxtrot1388/MessaggioTask/internal/entity"
+	"github.com/Foxtrot1388/MessaggioTask/internal/model"
 	sq "github.com/Masterminds/squirrel"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/jackc/pgx/v5/stdlib"
@@ -106,7 +107,7 @@ func (con *dbStorage) Create(ctx context.Context, messages []string) ([]entity.O
 
 }
 
-func (con *dbStorage) CreateOutbox(ctx context.Context, messages []int) error {
+func (con *dbStorage) CreateOutbox(ctx context.Context, messages []model.OutputMessage) error {
 
 	tx := ctx.Value("tx").(*sqlx.Tx)
 
@@ -114,7 +115,7 @@ func (con *dbStorage) CreateOutbox(ctx context.Context, messages []int) error {
 		Insert("outboxmessages").
 		Columns("idmessage")
 	for _, message := range messages {
-		op = op.Values(message)
+		op = op.Values(message.ID)
 	}
 
 	query, args, err := op.ToSql()

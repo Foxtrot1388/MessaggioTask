@@ -1,6 +1,11 @@
 basePath: /
 definitions:
-  entity.StatMessage:
+  model.OutputMessage:
+    properties:
+      id:
+        type: integer
+    type: object
+  model.StatMessage:
     properties:
       count:
         type: integer
@@ -41,7 +46,7 @@ paths:
           description: if all message have been create
           schema:
             items:
-              type: integer
+              $ref: '#/definitions/model.OutputMessage'
             type: array
         "400":
           description: validation error
@@ -74,7 +79,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/entity.StatMessage'
+              $ref: '#/definitions/model.StatMessage'
             type: array
         "500":
           description: Internal Server Error

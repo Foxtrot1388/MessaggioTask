@@ -49,7 +49,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "type": "integer"
+                                "$ref": "#/definitions/model.OutputMessage"
                             }
                         }
                     },
@@ -99,7 +99,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/entity.StatMessage"
+                                "$ref": "#/definitions/model.StatMessage"
                             }
                         }
                     },
@@ -114,7 +114,15 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "entity.StatMessage": {
+        "model.OutputMessage": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.StatMessage": {
             "type": "object",
             "properties": {
                 "count": {

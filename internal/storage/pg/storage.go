@@ -72,7 +72,7 @@ func (con *dbStorage) Create(ctx context.Context, messages []string) ([]entity.O
 		Insert("messages").
 		Columns("Message", "processed").
 		Suffix("RETURNING \"id\"")
-	for message := range messages {
+	for _, message := range messages {
 		op = op.Values(message, false)
 	}
 
@@ -113,7 +113,7 @@ func (con *dbStorage) CreateOutbox(ctx context.Context, messages []int) error {
 	op := psql.
 		Insert("outboxmessages").
 		Columns("idmessage")
-	for message := range messages {
+	for _, message := range messages {
 		op = op.Values(message)
 	}
 

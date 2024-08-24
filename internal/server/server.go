@@ -18,7 +18,7 @@ import (
 )
 
 type usecases interface {
-	Create(context.Context, []entity.MessageToInsert) ([]entity.OutputMessage, error)
+	Create(context.Context, []string) ([]int, error)
 	GetStatistic(context.Context, time.Time, time.Time) ([]entity.StatMessage, error)
 	StartJobOutboxWrite(context.Context)
 	StartJobOutboxRead(context.Context)
@@ -99,21 +99,21 @@ func (s *httpServer) Listen() {
 // @ID create
 // @Accept json
 // @Produce json
-// @Param input body []entity.MessageToInsert true "message fo create models"
-// @Success 200 {object} []entity.OutputMessage "if all message have been create"
+// @Param input body []string true "message fo create models"
+// @Success 200 {object} []int "if all message have been create"
 // @Failure 500 {object} response
 // @Failure 400 {object} response "validation error"
 // @Router /message/create [POST]
 func (con *httpServer) create(c *gin.Context) {
 
-	var req []entity.MessageToInsert
+	var req []string
 	if err := c.BindJSON(&req); err != nil {
 		con.logResponseWithError(c, http.StatusBadRequest, notCreateMessage, err)
 		return
 	}
 
 	for _, mes := range req {
-		if mes.Message == "" {
+		if mes == "" {
 			con.logResponseWithError(c, http.StatusBadRequest, notCreateMessage, emptyMessage)
 			return
 		}

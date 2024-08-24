@@ -10,8 +10,8 @@ import (
 
 //go:generate mockery --name DbRepository
 type DbRepository interface {
-	Create(context.Context, []entity.MessageToInsert) ([]entity.OutputMessage, error)
-	CreateOutbox(context.Context, []entity.OutputMessage) error
+	Create(context.Context, []string) ([]entity.OutputMessage, error)
+	CreateOutbox(context.Context, []int) error
 	SelectForOutbox(context.Context) ([]entity.OutputMessageOutbox, error)
 	DeleteForOutboxByID(context.Context, int) error
 	UpdateForOutboxByID(context.Context, int) error
@@ -36,14 +36,19 @@ func New(log *slog.Logger, db DbRepository, kafka KafkaRepository) *service {
 	return &service{db: db, log: log, kafka: kafka}
 }
 
-func (s *service) Create(ctx context.Context, messages []entity.MessageToInsert) ([]entity.OutputMessage, error) {
+func (s *service) Create(ctx context.Context, messages []string) ([]int, error) {
 
 	// в транзакции запишем в аутбокс и в сообщения
 	res, err := s.db.WithTr(ctx, func(ctx context.Context) (interface{}, error) {
 
-		result, err := s.db.Create(ctx, messages)
+		entityresults, err := s.db.Create(ctx, messages)
 		if err != nil {
 			return nil, err
+		}
+
+		result := make([]int, len(entityresults))
+		for c, entityresult := range entityresults {
+			result[c] = entityresult.ID
 		}
 
 		err = s.db.CreateOutbox(ctx, result)
@@ -57,7 +62,7 @@ func (s *service) Create(ctx context.Context, messages []entity.MessageToInsert)
 	if err != nil {
 		return nil, err
 	} else {
-		return res.([]entity.OutputMessage), nil
+		return res.([]int), nil
 	}
 
 }

@@ -64,7 +64,7 @@ func (con *dbStorage) WithTr(ctx context.Context, f func(context.Context) (inter
 
 }
 
-func (con *dbStorage) Create(ctx context.Context, messages []entity.MessageToInsert) ([]entity.OutputMessage, error) {
+func (con *dbStorage) Create(ctx context.Context, messages []string) ([]entity.OutputMessage, error) {
 
 	tx := ctx.Value("tx").(*sqlx.Tx)
 
@@ -72,8 +72,8 @@ func (con *dbStorage) Create(ctx context.Context, messages []entity.MessageToIns
 		Insert("messages").
 		Columns("Message", "processed").
 		Suffix("RETURNING \"id\"")
-	for _, message := range messages {
-		op = op.Values(message.Message, false)
+	for message := range messages {
+		op = op.Values(message, false)
 	}
 
 	query, args, err := op.ToSql()
@@ -106,15 +106,15 @@ func (con *dbStorage) Create(ctx context.Context, messages []entity.MessageToIns
 
 }
 
-func (con *dbStorage) CreateOutbox(ctx context.Context, messages []entity.OutputMessage) error {
+func (con *dbStorage) CreateOutbox(ctx context.Context, messages []int) error {
 
 	tx := ctx.Value("tx").(*sqlx.Tx)
 
 	op := psql.
 		Insert("outboxmessages").
 		Columns("idmessage")
-	for _, message := range messages {
-		op = op.Values(message.ID)
+	for message := range messages {
+		op = op.Values(message)
 	}
 
 	query, args, err := op.ToSql()

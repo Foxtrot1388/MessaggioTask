@@ -15,7 +15,7 @@ import (
 // @version 1.0
 // @description API Server for messages
 
-// @host 89.169.167.99:8080
+// @host localhost:8080
 // @BasePath /
 
 func main() {

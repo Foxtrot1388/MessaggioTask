@@ -1,24 +1,17 @@
-package main
+package app
 
 import (
 	"log/slog"
 	"os"
 
 	"github.com/Foxtrot1388/MessaggioTask/internal/config"
-	"github.com/Foxtrot1388/MessaggioTask/internal/server"
+	server "github.com/Foxtrot1388/MessaggioTask/internal/controller/http"
 	"github.com/Foxtrot1388/MessaggioTask/internal/service"
 	kafka "github.com/Foxtrot1388/MessaggioTask/internal/storage/kafka"
 	storagepg "github.com/Foxtrot1388/MessaggioTask/internal/storage/pg"
 )
 
-// @title Message API
-// @version 1.0
-// @description API Server for messages
-
-// @host localhost:8080
-// @BasePath /
-
-func main() {
+func Run() {
 
 	cfg := config.GetConfig()
 	log := slog.New(

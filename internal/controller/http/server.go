@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	_ "github.com/Foxtrot1388/MessaggioTask/docs"
+	_ "github.com/Foxtrot1388/MessaggioTask/api"
 	"github.com/Foxtrot1388/MessaggioTask/internal/model"
 
 	"github.com/gin-gonic/gin"

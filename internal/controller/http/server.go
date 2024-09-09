@@ -10,19 +10,11 @@ import (
 	"time"
 
 	_ "github.com/Foxtrot1388/MessaggioTask/api"
-	"github.com/Foxtrot1388/MessaggioTask/internal/model"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
-
-type usecases interface {
-	Create(context.Context, []string) ([]model.OutputMessage, error)
-	GetStatistic(context.Context, time.Time, time.Time) ([]model.StatMessage, error)
-	StartJobOutboxWrite(context.Context)
-	StartJobOutboxRead(context.Context)
-}
 
 type httpServer struct {
 	log     *slog.Logger
